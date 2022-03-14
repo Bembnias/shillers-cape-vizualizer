@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import { Fragment, useContext, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// Components
+import Navbar from './components/layout/Navbar'
+import Charts from './pages/Charts';
+// Context API
+import CapeContext from './context/cape/CapeContext';
 import './App.css';
 
 function App() {
+  const capeContext = useContext(CapeContext)
+  const { getAllCapes, capes, loading } = capeContext
+  useEffect(() => {
+    getAllCapes()
+    
+    // eslint-disable-next-line
+  }, [])
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Fragment>
+        <Navbar />
+        <Routes>
+          <Route exact path='/charts' element={<Charts capes={capes} loading={loading} />}/>
+        </Routes>
+      </Fragment>
+    </Router>
   );
 }
 
